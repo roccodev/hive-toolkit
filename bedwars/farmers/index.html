@@ -1,0 +1,106 @@
+---
+layout: bedwars
+title: Kill Farmers
+---
+<link rel="stylesheet" href="../stats/css/stats.css">
+<div align="center">
+  <div class="" id="alert-change" role="alert">
+  </div>
+  
+  <h1 id="title">Kill Farmers | Bedwars Toolkit</h1>
+  <form class="form-np" id="input-group" name="searchPlayer">
+    <div class="form-group">
+      <input type="text" name="player" class="form-control" id="input-change" placeholder="Player or UUID..." autofocus>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-lg btn-success btn-block" id="btn-change" type="submit">Check</button>
+    </div>
+    <div class="form-group">
+      <a href="leaderboard/" class="btn btn-lg btn-outline-primary btn-block" role="button">Leaderboard</a>
+    </div>
+    
+    
+  </form>
+</div>
+
+<script type="text/javascript">
+  
+  var form = document.getElementById("input-group")
+  var btn = document.getElementById("btn-change")
+  var input = document.getElementById("input-change")
+  var alert = document.getElementById("alert-change")
+  form.addEventListener('submit', function(event) {
+    event.preventDefault()
+    btn.disabled = true
+    alert.hidden = true
+    btn.innerHTML = "Checking..."
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function(e) {
+      if (xmlhttp.readyState === 4) {
+        if (xmlhttp.status === 200) {
+          var json = JSON.parse(xmlhttp.responseText)
+          alert.className = "alert alert-danger"
+          
+          alert.innerHTML = 'The user has flagged the system <strong>' + json.vl + '</strong> time(s), with a record of <strong>' + json.record + '</strong> kills per game.' 
+          
+          
+        } else {
+          alert.className = "alert alert-success"
+          alert.innerHTML = 'The user\'s history is clean.'
+        }
+        alert.hidden = false
+        btn.disabled = false
+        btn.innerHTML = "Check"
+      }
+    }
+    var mojang = new XMLHttpRequest();
+    mojang.onload = function(e) {
+      if (mojang.readyState === 4) {
+        if (mojang.status === 200) {
+          var json = JSON.parse(mojang.responseText)
+          xmlhttp.open("GET", "https://api.roccodev.pw/bedwars/farmers/profile/" + json.id, true);
+          xmlhttp.send(null)
+        }
+      }
+    }
+    mojang.open("GET", "https://api.minetools.eu/uuid/" + input.value, true)
+    mojang.send(null)
+    
+    
+  })
+  
+  
+  function sendAlt(username, owner) {
+    var mojang = new XMLHttpRequest();
+    mojang.onload = function(e) {
+      if (mojang.readyState === 4) {
+        if (mojang.status === 200) {
+          var json = JSON.parse(mojang.responseText)
+          var put = new XMLHttpRequest();
+          put.open("PUT", "https://us-central1-bedwarstoolkit-alts.cloudfunctions.net/api/put", true);
+          put.setRequestHeader("Content-Type", "application/json");
+          put.send(JSON.stringify({id: json.id, owner: owner}));
+        }
+      }
+    }
+    mojang.open("GET", "https://api.minetools.eu/uuid/" + username, true)
+    mojang.send(null)
+    
+  }
+  
+  function showModal(username) {
+    $('#exampleModal').modal('show')
+    var modalForm = document.getElementById("modal-form")
+    $('#modal-form').off()
+    var list = function(event) {
+      event.preventDefault()
+      var owner = document.getElementById("message-text").value
+      console.log(owner);
+      sendAlt(username, owner)
+      $('#exampleModal').modal('hide')
+      modalForm.removeEventListener('submit', list)
+    }
+    modalForm.addEventListener('submit', list)
+  }
+  
+</script>

@@ -1,0 +1,76 @@
+==================================================================
+https://keybase.io/roccodev
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://hive.roccodev.pw
+  * I am roccodev (https://keybase.io/roccodev) on keybase.
+  * I have a public key with fingerprint ED57 F319 46C4 64AC 4652  7255 EEFB AD1C 06F1 1A3A
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01202be2fc22a838c094e1355e5327e721f13f59d36eeb6617b5818592e30541b1980a",
+      "fingerprint": "ed57f31946c464ac46527255eefbad1c06f11a3a",
+      "host": "keybase.io",
+      "key_id": "eefbad1c06f11a3a",
+      "kid": "0101418c64c1ba1496f6598674aac762a7c29b64d1eda75386668b8a4b535ce9c0180a",
+      "uid": "1a04dc246adfdc8079c2bb3a8e8bbd19",
+      "username": "roccodev"
+    },
+    "service": {
+      "hostname": "hive.roccodev.pw",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "ctime": 1537643232,
+  "expire_in": 157680000,
+  "prev": "cbae5e2d5a40ebb2e0a1ded58db1fc38fa3df0f46529b8d3cbbade34d3767d68",
+  "seqno": 44,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.80
+Comment: https://keybase.io/crypto
+
+yMNtAnicbVJ7UFRVHAYRDITEhgoZxvTakMQO3XPfd0sYtQeJqSNNU5DsnnPvuXB5
+7F13l7eajxjQJFFkDclieIpGDGOkYDADFkEsRVazWhI4Q9DDaVQmZGpwu5fkv84f
+58z5ne/7zvd7fB4W4Bfi/+c/bdFBd6LM/sN97+f5pTWfmCghkCYXEeYSIhsvHDhH
+xk6XJVuVCTNBAoqkEKYUiaKgQAsSKTIY0CyLWZriMU8BBdAKK8o0hzHiOMAjVgAC
+K1KYJlkGICAKJCRMhKLaMrDD7lBtLl0Wyyyv0EBkOInhGKhvLMVTuipWEJSBRHIK
+AJA2iJma02Do5hB04nhV02P6xbJg73/wi75JwABB4hgJIAgYkVM4VhQ4noFQ4jkK
+8hIlIo6RAZYhz9ICx3ECEiCDWJqVsCiR4D/feQtyAJKMLFEMB2VFlgSSFyUKIRoK
+WEBIBqIBdGKHDeZiHe3QJEmTcT6x10To0XxVwkZhjUweIDLVfBy/CIu3F+h8u0Nz
+aZKWY7y6XHan2WC7iuwGvAAjywMhC1Jtsl5LnZGPHU5VsxFmoCMll2ooA5bmOYam
+aMpE4EK76sAW1UCwPCeQ+jL+0Y2ZCQlBzGJKZiFDYoQoTEIg620RZAQUiRYUSMsK
+qRiNEZEg0xLSC41pRtb1eZkTCCO13TaNMDOM7hNm6JpONcMGXXkOTOzt73tzqZ9/
+iF9Q4BJjyPxCgsMXR++b0RX3E499VnAtxc38cSj31wp8NeK7yrmJ1I4tOb5ij/WR
+weSq+Q39bd7nle9nDsyXn9zRGnI05usLk4mDtXlzLbNDU7dN6yd+3t/5UZmPqNzj
+KTKtjttCTb+akjCTHNE13lW4ZsbTWD397W+M9GH7vXRF+HtTYPr1Fe5J6rWsd+Na
+6msjxY6iEqoncWY2/L2oN6yN23pHXV2vB4QGXb1++Z2RPU/4On76pLamzn3/leTq
+v4bv1QFfsMVtr/C8nLT20QD6YE2F9+Zy29BLuDvRXf5xYjIdrYbm/ZCeVfVYK7Da
+Qj2wcuDsl+feopfvb7aGlr6wOrUm7ULY2bd72DMftB3ddVyiTtq33ugfLyajs6jH
+859rOuNdFnIqKR3GbfhdG9rparnZlN1Z64tI6Dbbqh5+uqL08L6MvMPPtA9kDDeU
+zUf5D1kvpq45HfZV5qSQMt+bzVWzk9S10ebtWYfGIgefOn/gRu1k3aV+Z3fbnOlE
+U/Fxpigmed/K8dxlrU2ne6OPfNpwhYnCyLvxVNLmsVhTeHI72ey+VWg972Wq3FfG
+Vm7tdFqmHvLMVm1syLrUvHbqi74n88ccEfyLS27PbQ/V1lde7H+2bHOlZgk+sq3c
+t+ly5N2KnlWxATsD7+64E9vrq1/348DoNBo/xid4J0ZWTQyljVg7EGr8pat06a6D
+fTHl6/bvvlXfdO5froLNMg==
+=/LV+
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/roccodev
+
+==================================================================
+

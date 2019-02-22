@@ -1,0 +1,21 @@
+- name: Monthlies
+  link : /bedwars/
+
+- name: Winstreaks
+  link: /bedwars/winstreaks/
+  link2: /bedwars/winstreaks/historical/
+
+- name: Stats
+  link: /bedwars/stats/
+
+- name: Ranks
+  link: /bedwars/ranks/
+
+- name: Maps
+  link: /bedwars/maps/
+
+- name: Alts
+  link: /bedwars/alts/
+
+- name: Farmers
+  link: /bedwars/farmers/

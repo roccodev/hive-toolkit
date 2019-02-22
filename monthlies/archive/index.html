@@ -1,0 +1,253 @@
+<html>
+
+<head>
+    <title>Archive | Monthlies</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../../bedwars/callouts.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="../../bedwars/utils/js/csv.js"></script>
+    <script src="js/archive.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.css" />
+
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    <meta name="og:title" content="Archive | Monthlies">
+    <meta name="og:description" content="View the past season's leaderboards.">
+    <meta name="og:image" content="https://hive.roccodev.pw/apple-touch-icon.png">
+    <meta name="theme-color" content="#63ef2f">
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-storage.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="../../icon-transparent.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Monthlies
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../timv">TIMV</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../dr">DR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../sky">SKY</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../gnt">GNT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../gntm">GNTM</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../cai">CAI</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../hide">HIDE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../bp">BP</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Archive <span class="sr-only">(current)</span></a>
+                </li>
+        </div>
+        <span class="navbar-text">
+            Made with ❤ by <a href="https://roccodev.pw">RoccoDev</a>
+        </span>
+    </nav>
+    <br>
+    <div class="container" id="cont">
+
+        <div class="page-header">
+            <h1 id="page-header-h1">Monthly Archive</h1>
+            
+        </div>
+        <div class="bs-callout bs-callout-info">
+            <h4>Information</h4>
+            <p id="innerCallout">Loading...</p>
+        </div>
+        <button class="btn btn-outline-primary" onclick="makeCsv(cachedObj)">Download (CSV)</button>
+        <br><br>
+        <div id="select" class="container" align="center" hidden>
+            <h1>Select the game and season</h1>
+            <form action="" class="form-np" role="search">
+                <div class="form-group">
+                    Season: <select name="season" id="select-s"></select> <br>
+                    Game: <select name="game" id="select-g"></select> <br>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline-success" type="submit">Go</button>
+                </div>
+            </form>
+        </div>
+
+        <script>
+
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                document.getElementsByClassName('container')[0].className = "container-fluid"
+            }
+
+            var cachedObj
+            const params = new URLSearchParams(window.location.search);
+            const season = params.get("season")
+            const game = params.get("game")
+            var seasonParam;
+            var mode = 0
+            var title
+            if (season && game) {
+                mode = 1
+                title = `${game} Monthlies (Season ${season})`
+            }
+            else if (season) {
+                title = `Monthlies (Season ${season})`
+                mode = 2
+            }
+            else if (game) {
+                title = `${game} Monthlies`
+                mode = 3
+            }
+            else title = "Archive | Monthlies"
+
+            document.title = title
+
+            if (mode == 1) {
+                // Mode #1: Both season and game specified, can load the table
+
+                // Create table
+                const table = document.createElement("TABLE")
+                table.className = "display dataTable table table-striped"
+                table.id = "table"
+
+
+                const thead = document.createElement("THEAD")
+                const tbody = document.createElement("TBODY")
+                const tfoot = document.createElement("TFOOT")
+                table.appendChild(thead)
+                table.appendChild(tbody)
+                table.appendChild(tfoot)
+
+                var data = Modes[game.toUpperCase()]
+                firebase.initializeApp(data.fb)
+
+                var storage = firebase.storage()
+                var file = storage.ref(season)
+                file.getDownloadURL().then(url => {
+                    var xhr = new XMLHttpRequest();
+                    xhr.responseType = 'blob'
+                    xhr.onload = (event) => {
+                        var reader = new FileReader();
+                        reader.addEventListener("loadend", function () {
+                            var content = JSON.parse(reader.result)
+                            cachedObj = content
+                            var order = ["place", "username"].concat(data.c)
+                            var names = ["Place", "Username"].concat(data.cn)
+                            const htr = document.createElement('TR')
+                            const ftr = document.createElement('TR')
+
+                            names.forEach(name => {
+                                const hth = document.createElement('TH')
+                                hth.innerHTML = name
+                                const fth = document.createElement('TH')
+                                fth.innerHTML = name
+
+                                htr.appendChild(hth)
+                                ftr.appendChild(fth)
+                            })
+
+                            thead.appendChild(htr)
+                            tfoot.appendChild(ftr)
+
+                            for (var key in content) {
+                                var profile = content[key]
+                                var tr = document.createElement('TR')
+                                order.forEach(key => {
+                                    if (key === "UUID") return
+                                    var td = document.createElement('TD')
+                                    td.innerHTML = profile[key]
+                                    tr.appendChild(td)
+                                })
+                                tbody.appendChild(tr)
+                            }
+
+                            document.getElementById("cont").appendChild(table)
+                            $('#table').dataTable({
+                                order: [[0, "asc"]],
+                                destroy: true,
+                                responsive: true
+                            });
+
+                        });
+                        reader.readAsText(xhr.response)
+                    }
+                    xhr.open('GET', url)
+                    xhr.send()
+
+
+                })
+
+
+            }
+            else {
+                // Mode #2: Season specified
+                var modes = Object.keys(Modes); // Modes is defined in js/archive.js
+
+                // DOM Elements
+                const div = document.getElementById("select")
+                const selectg = document.getElementById("select-g")
+                const selects = document.getElementById("select-s")
+
+
+                initModesAndSeasons(selects, selectg)
+                div.hidden = false
+
+            }
+
+
+            function initModesAndSeasons(selects, selectg) {
+
+                const url = "https://www.googleapis.com/storage/v1/b/monthlies-timv.appspot.com/o"
+                Object.keys(Modes).forEach(mode => {
+                    var opt = document.createElement("option")
+                    opt.innerHTML = mode
+                    selectg.appendChild(opt)
+                })
+
+                var xhr = new XMLHttpRequest()
+                xhr.onload = () => {
+                    var max = JSON.parse(xhr.responseText).items.length
+                    for (var i = 1; i <= max; i++) {
+                        var opt = document.createElement("option")
+                        opt.innerHTML = i
+                        selects.appendChild(opt)
+                    }
+                }
+                xhr.open('GET', url)
+                xhr.send()
+
+            }
+
+        </script>
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

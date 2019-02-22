@@ -1,0 +1,54 @@
+---
+layout: bedwars
+title: Ranks
+---
+<div align="center">
+  
+  <h1 id="title">Ranks | Bedwars Toolkit</h1>
+  
+  
+  <table class="table table-striped table-sm" style="table-layout:fixed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Required Points</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+    </tbody>
+  </table>
+  <p><i id="cached"></i></p>
+  
+</div>
+
+<script type="module">
+  import {ranks, rankColors} from '../stats/js/stats.js'
+  
+  function createTD(inside, classNames) {
+    var td = document.createElement("TD")
+    td.innerHTML = inside
+    td.className = classNames
+    return td
+  }
+  
+  ranks().then(function(rankList) {
+    rankList.push({
+      required_points: "#1 Rank",
+      name: "ZZZZZZ",
+      name_group: "ZZZZZZ",
+      human_name: "&l✸ Zzzzzz",
+      plain_name: "✸ Zzzzzz"
+    })
+    var tbody = document.getElementById("table-body")
+    for(var i in rankList) {
+      var rank = rankList[i]
+      var tr = document.createElement("TR")
+      tr.appendChild(createTD(rank.plain_name, rankColors[rank.name_group.toLowerCase()]))
+      tr.appendChild(createTD(rank.required_points.toLocaleString(), ""))
+      tbody.appendChild(tr)
+    }
+  })
+  
+  
+  
+</script>

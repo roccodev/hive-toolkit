@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="../../callouts.css?v=2"/>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.css"/>
+
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+
+  <meta name="og:title" content="Kill Farmers Leaderboard | Bedwars Toolkit">
+  <meta name="og:description" content="Statistics about the main suspected killfarmers. Shows the 100 players who got the highest KPG record.">
+  <meta name="og:image" content="https://hive.roccodev.pw/apple-touch-icon.png">
+  <meta name="theme-color" content="#63ef2f">
+
+  <script src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/date-euro.js"></script>
+
+
+
+<title>Farmers Leaderboard | Bedwars Toolkit</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      <img src="../../../icon-transparent.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      Bedwars Toolkit
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="../../">Monthlies</a>
+          </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../../winstreaks/">Winstreaks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../../stats/">Stats</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../../ranks">Ranks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../../maps">Maps</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../../alts">Alts</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Farmers <span class="sr-only">(current)</span></a>
+      </li>
+  </div>
+  <span class="navbar-text">
+     &nbsp;&nbsp;Made with ❤ by <a href="https://roccodev.pw">RoccoDev</a>
+   </span>
+</nav>
+<br>
+  <div class="container">
+
+    <div class="page-header">
+      <h1 id="page-header-h1">Kill Farmers Leaderboard</h1>
+
+    </div>
+    <div class="bs-callout bs-callout-info">
+      <h4>Information</h4>
+      <p id="innerCallout">Leaderboard is sorted by KPG Record.</p>
+    </div>
+    <table id="table" class="display dataTable table table-striped">
+      <tr>
+        <thead>
+          <th>Place</th>
+          <th>Name</th>
+          <th>KPG Record</th>
+          <th>Violations</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+            <th>Place</th>
+            <th>Name</th>
+            <th>KPG Record</th>
+            <th>Violations</th>
+        </tr>
+      </tfoot>
+    </table>
+
+    <script>
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      document.getElementsByClassName('container')[0].className = "container-fluid"
+    }
+
+    var table = document.getElementById('table')
+
+    var http = new XMLHttpRequest()
+
+
+    http.addEventListener("load", function(){
+      var obj = JSON.parse(this.responseText)
+      table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>KPG Record</th><th>Violations</th></tr></thead>"
+      var tb = document.createElement('TBODY')
+
+      var order = ["place", "username", "record", "vl"]
+
+
+
+      for (var i in obj){
+
+        var obj1 = obj[i];
+
+        var tr = document.createElement('TR')
+    
+        order.forEach(k => {
+          var td = document.createElement('TD')
+
+          td.innerHTML = obj1[k]
+
+
+          tr.appendChild(td)
+        })
+        tb.appendChild(tr)
+
+      }
+      table.appendChild(tb)
+      table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>KPG Record</th><th>Violations</th> </tr> </tfoot>"
+
+      $('#table').dataTable( {
+        order: [[ 0, "asc" ]],
+        responsive: true,
+        destroy: true
+      } );
+
+    });
+
+    http.open("GET", "https://api.roccodev.pw/bedwars/farmers/leaderboard");
+    http.send();
+    </script>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</body>
+</html>

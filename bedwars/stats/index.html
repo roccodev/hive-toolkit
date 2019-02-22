@@ -1,0 +1,118 @@
+---
+layout: bedwars
+title: Stats
+---
+<script type="module" src="js/main.js"></script>
+<link rel="stylesheet" href="css/stats.css">
+<div align="center">
+  
+  <h1 id="title">Stats | Bedwars Toolkit</h1>
+  <button type="button" class="rank-outline gray rank" disabled>Loading...</button>
+  <br><br>
+  <div class="btn-group btn-group-toggle" role="group" data-toggle="buttons" id="selector">
+    <button type="button" id="BED" class="btn btn-secondary active">Global</button>
+    <button type="button" id="BEDS" class="btn btn-secondary">Solo</button>
+    <button type="button" id="BEDD" class="btn btn-secondary">Duos</button>
+    <button type="button" id="BEDT" class="btn btn-secondary">Teams</button>
+    <button type="button" id="BEDX" class="btn btn-secondary">LTM</button>
+  </div>
+  <br>
+  <br>
+  <div id="table-container">
+    <div class="table-div col-sm">
+      <table class="table table-striped table-sm table-stats" style="table-layout:fixed">
+        <tbody>
+          <tr>
+            <th scope="row">Points</th>
+            <td class="pts">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Kills</th>
+            <td class="kills">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Deaths</th>
+            <td class="deaths">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Victories</th>
+            <td class="victories">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Games Played</th>
+            <td class="played">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Beds Destroyed</th>
+            <td class="beds">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Teams Eliminated</th>
+            <td class="teams">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Win Streak</th>
+            <td class="streak">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <table class="table table-striped table-sm table-more" style="table-layout:fixed">
+        <tbody>
+          <tr>
+            <th scope="row">K/D</th>
+            <td class="kdr">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">W/L</th>
+            <td class="wlr">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Points Per Game</th>
+            <td class="ppg">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Kills Per Game</th>
+            <td class="kpg">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Deaths Per Game</th>
+            <td class="dpg">Loading...</td>
+          </tr>
+          
+        </tbody>
+      </table>
+      
+      <br>
+      <table class="table table-striped table-sm table-extra" style="table-layout:fixed">
+        <tbody>
+          <tr>
+            <th scope="row">First Game</th>
+            <td class="firstgame">Loading...</td>
+          </tr>
+          <tr>
+            <th scope="row">Last Game</th>
+            <td class="lastgame">Loading...</td>
+          </tr>
+        </table>
+      </div>
+      <p><i id="cached"></i></p>
+      
+    </div>
+    
+    
+  </div>
+</div>
+<div class="container" id="noPlayer" align="center" hidden>
+  <h1>Stats | Bedwars Toolkit</h1>
+  <form class="form-np" id="input-group" name="searchPlayer">
+    <div class="form-group">
+      <input type="text" name="player" class="form-control" placeholder="Player or UUID..." autofocus>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-lg btn-outline-primary btn-block" type="button" id="add-btn">Add Players</button>
+      <button class="btn btn-lg btn-success btn-block" type="submit">Go</button>
+    </div>
+  </form>
+</div>
+
