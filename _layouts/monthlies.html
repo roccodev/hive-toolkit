@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  
+  <link rel="stylesheet" type="text/css" href="../../bedwars/callouts.css?v=2"/>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.css"/>
+  
+  <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+  
+  {% assign order = page.order | split: ", " %}
+  {% assign order_hmn = page.order_human | split: ", " %}
+  
+  <meta name="og:title" content="{{ page.gamemode }} Monthlies">
+  <meta name="og:description" content="A leaderboard that tracks stats earned during the month by players in the Top 500.">
+  <meta name="og:image" content="https://hive.roccodev.pw/apple-touch-icon.png">
+  <meta name="theme-color" content="#63ef2f">
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-database.js"></script>
+  {% if page.firebase %}
+  
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-database.js"></script>
+  <script>
+    
+    
+    // Initialize Firebase
+    var config = {
+      apiKey: "{{ page.firebase-key }}",
+      authDomain: "{{ page.firebase-auth }}",
+      databaseURL: "{{ page.firebase-db }}",
+      projectId: "{{ page.firebase-pid }}",
+      storageBucket: "{{ page.firebase-storage }}",
+      messagingSenderId: "{{ page.firebase-mid }}"
+    };
+    
+    
+    firebase.initializeApp(config);
+    
+    
+  </script>
+  {% endif %}
+  <title>{{ page.gamemode }} Monthlies</title>
+</head>
+<body>
+  {% include monthlies_nav.html %}
+  <br>
+  <div class="container">
+    <div class="page-header">
+      <h1 id="page-header-h1">{{page.gamemode}} Monthly Leaderboard</h1>
+      
+    </div>
+    <div class="bs-callout bs-callout-info">
+      <h4>Information</h4>
+      <p id="innerCallout">Loading...</p>
+    </div>
+    
+    <table id="table" class="display dataTable table table-striped">
+      <thead>
+        <tr>
+          {% for item in order_hmn %}
+          <th>{{item}}</th> 
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          {% for item in order_hmn %}
+          <th>{{item}}</th> 
+          {% endfor %}
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Players</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form name="modalForm" role="search" onsubmit="submitModalForm(); return false;">
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Players, each one on a different line</label>
+                <textarea class="form-control" id="message-text"></textarea>
+              </div>
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Add...</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
+  <script>
+    
+    var latestSnapshot;
+    
+    
+    function submitModalForm() {
+      var players = document.forms["modalForm"]["message-text"].value
+      var split = players.split("\n")
+      split = split.concat(playerParam)
+      var url;
+      for(var i in split) {
+        var uuid = split[i].replace("-", "")
+        if(uuid.length != 32) {
+          for(var i in latestSnapshot) {
+            if(latestSnapshot[i]["username"].toLowerCase() === uuid.toLowerCase()) {
+              uuid = i;
+              break;
+            }
+          }
+        }
+        url += uuid + "&"
+      }
+      url = url.substring(0, url.length - 1).replace("undefined", "")
+      console.log(url)
+      
+      window.location.replace("?player=" + url)
+    }
+    
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      document.getElementsByClassName('container')[0].className = "container-fluid"
+    }
+    
+    
+    var arr = document.URL.match(/player=(.+)/)
+    var playerParam;
+    var mode;
+    
+    if(arr != null) {
+      
+      var str = arr[1].split("&")
+      
+      if(str.length == 1) {
+        
+        playerParam = str[0];
+        mode = 1;
+      }
+      else {
+        playerParam = str
+        mode = 2;
+      }
+      
+    }
+    else {
+      mode = 0
+    }
+    
+    
+    var table = document.getElementById('table')
+    var ref = firebase.database().ref('monthly');
+    
+    
+    ref.on("value", function(snapshot){
+      table.innerHTML = ""
+      var thead = document.createElement("THEAD")
+      var thr = document.createElement("TR")
+      
+      var humanOrder = [
+      {% for item in order_hmn %}
+      "{{item}}", 
+      {% endfor %}
+      ]
+      
+      humanOrder.forEach(item => {
+        var th = document.createElement("TH")
+        th.innerHTML = item
+        thr.appendChild(th)
+      })
+      
+      thead.appendChild(thr)
+      table.appendChild(thead)
+      
+      var tb = document.createElement('TBODY')
+      document.getElementById('innerCallout').innerHTML="This leaderboard includes all players who are in the Top 500.";
+      var obj;
+      latestSnapshot = snapshot.val()
+      if(mode == 1) {
+        obj = {}
+        obj[playerParam] = latestSnapshot[playerParam];
+        document.getElementById("page-header-h1").innerHTML = '{{page.gamemode}} Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/monthlies/{{page.gamemode | downcase}}">Clear Query</a>'
+        
+      }
+      else if(mode == 2) {
+        document.getElementById("page-header-h1").innerHTML = '{{page.gamemode}} Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/monthlies/{{page.gamemode | downcase}}">Clear Query</a>'
+        obj = latestSnapshot;
+      }
+      else {
+        obj = latestSnapshot;
+      }
+      
+      var order = [
+      {% for item in order %}
+      "{{item}}", 
+      {% endfor %}
+      ]
+      console.log(order)
+      for (var i in obj){
+        
+        if(mode == 2 && !(playerParam.includes(i))) continue;
+        var obj1 = obj[i];
+        
+        var tr = document.createElement('TR')
+        
+        order.forEach(function(key) {
+          if(key === "UUID") return
+          var td = document.createElement('TD')
+          if(key === "username"){
+            td.innerHTML = '<a href="?player=' + i + '">' + obj1[key] + '</a>';
+          } else {
+            td.innerHTML = obj1[key]
+            
+          }
+          
+          tr.appendChild(td)
+          
+        })
+        
+        
+        
+        tb.appendChild(tr)
+        
+      }
+      table.appendChild(tb)
+      var tfoot = document.createElement("TFOOT")
+      
+      tfoot.appendChild(thr.cloneNode(true))
+      table.appendChild(tfoot)
+      
+      
+      $('#table').dataTable( {
+        order: [[ 0, "asc" ]],
+        responsive: true,
+        destroy: true
+      } );
+      if(mode == 1 || mode == 2) {
+        
+        var parentDiv = document.getElementById("table_wrapper")
+        var childDiv = document.createElement("DIV")
+        childDiv.style.cssFloat = "left"
+        childDiv.style.position = "relative"
+        childDiv.style.left = "25%"
+        childDiv.style.top= "1%"
+        childDiv.style.boxSizing = "border-box"
+        childDiv.innerHTML = '<a class="btn btn-outline-primary" style="display: initial" data-toggle="modal" data-target="#exampleModal" href="#">Add Players</a>'
+        parentDiv.insertBefore(childDiv, parentDiv.childNodes[2])
+      }
+    });
+    
+  </script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</body>
+</html>
