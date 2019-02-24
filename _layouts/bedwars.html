@@ -4,56 +4,63 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-
+  
   <link rel="stylesheet" type="text/css" href="/bedwars/callouts.css?v=2"/>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
+  
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.css"/>
-
+  
   <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
-
-
-
+  
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-9975973612530266",
+      enable_page_level_ads: true
+    });
+  </script>
+  
+  
   <meta name="og:title" content="{{ page.title }} | Bedwars Toolkit">
   <meta name="og:description" content="{{ page.description }}">
   <meta name="og:image" content="https://hive.roccodev.pw/apple-touch-icon.png">
   <meta name="theme-color" content="#63ef2f">
-
+  
   {% if page.firebase %}
-
+  
   <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.0.0/firebase-database.js"></script>
   <script>
-
-
-  // Initialize Firebase
-  var config = {
-    apiKey: "{{ page.firebase-key }}",
-    authDomain: "{{ page.firebase-auth }}",
-    databaseURL: "{{ page.firebase-db }}",
-    projectId: "{{ page.firebase-pid }}",
-    storageBucket: "{{ page.firebase-storage }}",
-    messagingSenderId: "{{ page.firebase-mid }}"
-  };
-
-
-  firebase.initializeApp(config);
-
-
-</script>
-{% endif %}
-<title>{{ page.title }} | Bedwars Toolkit</title>
+    
+    
+    // Initialize Firebase
+    var config = {
+      apiKey: "{{ page.firebase-key }}",
+      authDomain: "{{ page.firebase-auth }}",
+      databaseURL: "{{ page.firebase-db }}",
+      projectId: "{{ page.firebase-pid }}",
+      storageBucket: "{{ page.firebase-storage }}",
+      messagingSenderId: "{{ page.firebase-mid }}"
+    };
+    
+    
+    firebase.initializeApp(config);
+    
+    
+  </script>
+  {% endif %}
+  <title>{{ page.title }} | Bedwars Toolkit</title>
 </head>
 <body>
-    {% include bedwars_nav.html %}
-    <br>
-    <div class="container">
-        {{ content }}
-    </div>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  {% include bedwars_nav.html %}
+  <br>
+  <div class="container">
+    {{ content }}
+  </div>
+  
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </body>
 </html>
