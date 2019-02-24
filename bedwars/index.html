@@ -16,9 +16,17 @@ firebase-mid: 482159749766
   <h1 id="page-header-h1">BedWars Monthly Leaderboard</h1>
   
 </div>
-<div class="bs-callout bs-callout-info">
-  <h4>Information</h4>
-  <p id="innerCallout">Loading...</p>
+<div>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="fluid"
+         data-ad-layout-key="-gw-3+1f-3d+2z"
+         data-ad-client="ca-pub-9975973612530266"
+         data-ad-slot="9310795269"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </div>
 
 <table id="table" class="display dataTable table table-striped">
@@ -158,7 +166,6 @@ firebase-mid: 482159749766
   ref.on("value", function(snapshot){
     table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th><th>Deaths</th><th>Victories</th><th>Games Played</th> <th>Beds Destroyed</th> <th>Teams Eliminated</th></tr></thead>"
     var tb = document.createElement('TBODY')
-    document.getElementById('innerCallout').innerHTML="This leaderboard includes all players who are in the Top 500.";
     var obj;
     latestSnapshot = snapshot.val()
     if(mode == 1) {
