@@ -1,0 +1,4 @@
+language: minimal
+install: sh travis.sh
+before_install:
+- chmod +x travis.sh
