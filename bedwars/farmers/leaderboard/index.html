@@ -5,7 +5,7 @@ description: Statistics about the main suspected killfarmers. Shows the 100 play
 ---
 <div class="page-header">
   <h1 id="page-header-h1">Kill Farmers Leaderboard</h1>
-  
+
 </div>
 {% include bedwars_ad.html %}
 <table id="table" class="display dataTable table table-striped">
@@ -15,7 +15,7 @@ description: Statistics about the main suspected killfarmers. Shows the 100 play
       <th>Name</th>
       <th>KPG Record</th>
       <th>Violations</th>
-    </tr>
+  </tr>
   </thead>
   <tbody></tbody>
   <tfoot>
@@ -29,53 +29,53 @@ description: Statistics about the main suspected killfarmers. Shows the 100 play
 </table>
 
 <script>
-  
-  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     document.getElementsByClassName('container')[0].className = "container-fluid"
   }
-  
+
   var table = document.getElementById('table')
-  
+
   var http = new XMLHttpRequest()
-  
-  
-  http.addEventListener("load", function(){
+
+
+  http.addEventListener("load", function () {
     var obj = JSON.parse(this.responseText)
     table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>KPG Record</th><th>Violations</th></tr></thead>"
     var tb = document.createElement('TBODY')
-    
+
     var order = ["place", "username", "record", "vl"]
-    
-    
-    
-    for (var i in obj){
-      
+
+
+
+    for (var i in obj) {
+
       var obj1 = obj[i];
-      
+
       var tr = document.createElement('TR')
-      
+
       order.forEach(k => {
         var td = document.createElement('TD')
-        
+
         td.innerHTML = obj1[k]
-        
-        
+
+
         tr.appendChild(td)
       })
       tb.appendChild(tr)
-      
+
     }
     table.appendChild(tb)
     table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>KPG Record</th><th>Violations</th> </tr> </tfoot>"
-    
-    $('#table').dataTable( {
-      order: [[ 0, "asc" ]],
+
+    $('#table').dataTable({
+      order: [[0, "asc"]],
       responsive: true,
       destroy: true
-    } );
-    
+    });
+
   });
-  
-  http.open("GET", "https://api.roccodev.pw/bedwars/farmers/leaderboard");
+
+  http.open("GET", "https://api.rocco.dev/bedwars/farmers/leaderboard");
   http.send();
 </script>

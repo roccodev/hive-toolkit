@@ -1,7 +1,8 @@
 ---
 layout: bedwars
 title: Winstreaks (Historical)
-description: A leaderboard based on overall winstreaks (excluding Limited Time Modes). Data is fetched from the API every 5 minutes. Also, this leaderboard tracks your best streak, and your streak won't reset if you lose.
+description: A leaderboard based on overall winstreaks (excluding Limited Time Modes). Data is fetched from the API
+every 5 minutes. Also, this leaderboard tracks your best streak, and your streak won't reset if you lose.
 
 firebase: true
 firebase-key: AIzaSyBu6jGCpJSRyxWKL4Rjd4nNa8KqlVceb1U
@@ -14,213 +15,214 @@ firebase-mid: 563515545378
 
 <div class="page-header">
   <h1 id="page-header-h1">BedWars Winstreaks Leaderboard (Historical)</h1>
-  
+
 </div>
 {% include bedwars_ad.html %}
-  <div align="center">
-    
-    <div class="btn-group btn-group-toggle" role="group" data-toggle="buttons" id="selector">
-      <button type="button" id="BED" class="btn btn-secondary active">Global</button>
-      <button type="button" id="BEDS" class="btn btn-secondary">Solo</button>
-      <button type="button" id="BEDD" class="btn btn-secondary">Duos</button>
-      <button type="button" id="BEDT" class="btn btn-secondary">Teams</button>
-      <button type="button" id="BEDX" class="btn btn-secondary">LTM</button>
-    </div>
-    
+<div align="center">
+
+  <div class="btn-group btn-group-toggle" role="group" data-toggle="buttons" id="selector">
+    <button type="button" id="BED" class="btn btn-secondary active">Global</button>
+    <button type="button" id="BEDS" class="btn btn-secondary">Solo</button>
+    <button type="button" id="BEDD" class="btn btn-secondary">Duos</button>
+    <button type="button" id="BEDT" class="btn btn-secondary">Teams</button>
+    <button type="button" id="BEDX" class="btn btn-secondary">LTM</button>
   </div>
-  <br>
-  <table id="table" class="display dataTable table table-striped">
+
+</div>
+<br>
+<table id="table" class="display dataTable table table-striped">
+  <tr>
+    <thead>
+      <th>Place</th>
+      <th>Name</th>
+      <th>Streak</th>
+
+  </tr>
+  </thead>
+  <tbody></tbody>
+  <tfoot>
     <tr>
-      <thead>
-        <th>Place</th>
-        <th>Name</th>
-        <th>Streak</th>
-        
-      </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-      <tr>
-        <th>Place</th>
-        <th>Name</th>
-        <th>Streak</th>
-      </tr>
-    </tfoot>
-  </table>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Players</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form name="modalForm" role="search" onsubmit="submitModalForm(); return false;">
-            <div class="form-group">
-              <label for="message-text" class="col-form-label">Players, each one on a different line</label>
-              <textarea class="form-control" id="message-text"></textarea>
-            </div>
-            
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Add...</button>
-          </div>
-        </form>
+      <th>Place</th>
+      <th>Name</th>
+      <th>Streak</th>
+    </tr>
+  </tfoot>
+</table>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Players</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <form name="modalForm" role="search" onsubmit="submitModalForm(); return false;">
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Players, each one on a different line</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add...</button>
+      </div>
+      </form>
     </div>
   </div>
-  
-  <script>
-    
-    var latestSnapshot;
-    
-    
-    
-    
-    function submitModalForm() {
-      var players = document.forms["modalForm"]["message-text"].value
-      var split = players.split("\n")
-      split = split.concat(playerParam)
-      var url;
-      for(var i in split) {
-        var uuid = split[i].replace("-", "")
-        if(uuid.length != 32) {
-          for(var i in latestSnapshot) {
-            if(latestSnapshot[i]["name"].toLowerCase() === uuid.toLowerCase()) {
-              uuid = i;
-              break;
-            }
+</div>
+
+<script>
+
+  var latestSnapshot;
+
+
+
+
+  function submitModalForm() {
+    var players = document.forms["modalForm"]["message-text"].value
+    var split = players.split("\n")
+    split = split.concat(playerParam)
+    var url;
+    for (var i in split) {
+      var uuid = split[i].replace("-", "")
+      if (uuid.length != 32) {
+        for (var i in latestSnapshot) {
+          if (latestSnapshot[i]["name"].toLowerCase() === uuid.toLowerCase()) {
+            uuid = i;
+            break;
           }
         }
-        url += uuid + "&"
       }
-      url = url.substring(0, url.length - 1).replace("undefined", "")
-      console.log(url)
-      
-      window.location.replace("?player=" + url)
+      url += uuid + "&"
     }
-    
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-      document.getElementsByClassName('container')[0].className = "container-fluid"
-    }
-    
-    var playerParam;
-    var mode1 = "BED";
-    
-    function doStuff() {
-      var arr = document.URL.match(/player=(.+)/)
-      
-      if(arr != null) {
-        
-        var str = arr[1].split("&")
-        
-        if(str.length == 1) {
-          
-          playerParam = str[0];
-          mode = 1;
-        }
-        else {
-          playerParam = str
-          mode = 2;
-        }
-        
+    url = url.substring(0, url.length - 1).replace("undefined", "")
+    console.log(url)
+
+    window.location.replace("?player=" + url)
+  }
+
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.getElementsByClassName('container')[0].className = "container-fluid"
+  }
+
+  var playerParam;
+  var mode1 = "BED";
+
+  function doStuff() {
+    var arr = document.URL.match(/player=(.+)/)
+
+    if (arr != null) {
+
+      var str = arr[1].split("&")
+
+      if (str.length == 1) {
+
+        playerParam = str[0];
+        mode = 1;
       }
       else {
-        mode = 0
+        playerParam = str
+        mode = 2;
       }
-      
-      
-      
-      var table = document.getElementById('table')
-      var ref = firebase.database().ref(mode1);
-      
-      ref.off()
-      ref.on("value", function(snapshot){
-        table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Streak</th></tr></thead>"
-        var tb = document.createElement('TBODY')
-        
-        
-        var obj;
-        latestSnapshot = snapshot.val()
-        if(mode == 1) {
-          obj = {}
-          obj[playerParam] = latestSnapshot[playerParam];
-          document.getElementById("page-header-h1").innerHTML = 'BedWars Winstreaks Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/bedwars/winstreaks">Clear Query</a>'
-          
-        }
-        else if(mode == 2) {
-          document.getElementById("page-header-h1").innerHTML = 'BedWars Winstreaks Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/bedwars/winstreaks">Clear Query</a>'
-          obj = latestSnapshot;
-        }
-        else {
-          obj = latestSnapshot;
-        }
-        
-        
-        for (var i in obj){
-          
-          if(mode == 2 && !(playerParam.includes(i))) continue;
-          var obj1 = obj[i];
-          
-          
-          var things = [obj1["place"], obj1["name"], obj1["winstreak"]]
-          
-          
-          var tr = document.createElement('TR')
-          for (var key in things){
-            if(key == 1) {
-              
-              var td = document.createElement('TD')
-              
-              td.innerHTML = '<a href="?player=' + i + '">' + things[key] + '</a>';
-              tr.appendChild(td)
-              
-            }
-            else {
-              var td = document.createElement('TD')
-              
-              td.innerHTML = things[key]
-              tr.appendChild(td)
-            }
-          }
-          tb.appendChild(tr)
-          
-        }
-        table.appendChild(tb)
-        table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>Streak</th></tr> </tfoot>"
-        
-        $('#table').dataTable( {
-          order: [[ 0, "asc" ]],
-          responsive: true,
-          destroy: true
-        } );
-        if(mode == 1 || mode == 2) {
-          
-          var parentDiv = document.getElementById("table_wrapper")
-          var childDiv = document.createElement("DIV")
-          childDiv.style.cssFloat = "left"
-          childDiv.style.position = "relative"
-          childDiv.style.left = "25%"
-          childDiv.style.top= "1%"
-          childDiv.style.boxSizing = "border-box"
-          childDiv.innerHTML = '<a class="btn btn-outline-primary" style="display: initial" data-toggle="modal" data-target="#exampleModal" href="#">Add Players</a>'
-          parentDiv.insertBefore(childDiv, parentDiv.childNodes[2])
-        }
-      });
+
     }
-    
-    $('#selector button').click(function() {
-      
-      $(this).addClass('active').siblings().removeClass('active');
-      mode1 = $(this).context.id.toUpperCase()
-      doStuff();
-      
+    else {
+      mode = 0
+    }
+
+
+
+    var table = document.getElementById('table')
+    var ref = firebase.database().ref(mode1);
+
+    ref.off()
+    ref.on("value", function (snapshot) {
+      table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Streak</th></tr></thead>"
+      var tb = document.createElement('TBODY')
+
+
+      var obj;
+      latestSnapshot = snapshot.val()
+      if (mode == 1) {
+        obj = {}
+        obj[playerParam] = latestSnapshot[playerParam];
+        document.getElementById("page-header-h1").innerHTML = 'BedWars Winstreaks Leaderboard <a class="btn btn-outline-success" href="http://hive.rocco.dev/bedwars/winstreaks">Clear Query</a>'
+
+      }
+      else if (mode == 2) {
+        document.getElementById("page-header-h1").innerHTML = 'BedWars Winstreaks Leaderboard <a class="btn btn-outline-success" href="http://hive.rocco.dev/bedwars/winstreaks">Clear Query</a>'
+        obj = latestSnapshot;
+      }
+      else {
+        obj = latestSnapshot;
+      }
+
+
+      for (var i in obj) {
+
+        if (mode == 2 && !(playerParam.includes(i))) continue;
+        var obj1 = obj[i];
+
+
+        var things = [obj1["place"], obj1["name"], obj1["winstreak"]]
+
+
+        var tr = document.createElement('TR')
+        for (var key in things) {
+          if (key == 1) {
+
+            var td = document.createElement('TD')
+
+            td.innerHTML = '<a href="?player=' + i + '">' + things[key] + '</a>';
+            tr.appendChild(td)
+
+          }
+          else {
+            var td = document.createElement('TD')
+
+            td.innerHTML = things[key]
+            tr.appendChild(td)
+          }
+        }
+        tb.appendChild(tr)
+
+      }
+      table.appendChild(tb)
+      table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>Streak</th></tr> </tfoot>"
+
+      $('#table').dataTable({
+        order: [[0, "asc"]],
+        responsive: true,
+        destroy: true
+      });
+      if (mode == 1 || mode == 2) {
+
+        var parentDiv = document.getElementById("table_wrapper")
+        var childDiv = document.createElement("DIV")
+        childDiv.style.cssFloat = "left"
+        childDiv.style.position = "relative"
+        childDiv.style.left = "25%"
+        childDiv.style.top = "1%"
+        childDiv.style.boxSizing = "border-box"
+        childDiv.innerHTML = '<a class="btn btn-outline-primary" style="display: initial" data-toggle="modal" data-target="#exampleModal" href="#">Add Players</a>'
+        parentDiv.insertBefore(childDiv, parentDiv.childNodes[2])
+      }
     });
-    
+  }
+
+  $('#selector button').click(function () {
+
+    $(this).addClass('active').siblings().removeClass('active');
+    mode1 = $(this).context.id.toUpperCase()
     doStuff();
-    
-    
-  </script>
+
+  });
+
+  doStuff();
+
+
+</script>

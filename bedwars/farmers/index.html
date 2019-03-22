@@ -7,7 +7,7 @@ description: Statistics about the main suspected killfarmers.
 <div align="center">
   <div class="" id="alert-change" role="alert">
   </div>
-  
+
   <h1 id="title">Kill Farmers | Bedwars Toolkit</h1>
   {% include bedwars_ad.html %}
 
@@ -21,32 +21,32 @@ description: Statistics about the main suspected killfarmers.
     <div class="form-group">
       <a href="leaderboard/" class="btn btn-lg btn-outline-primary btn-block" role="button">Leaderboard</a>
     </div>
-    
-    
+
+
   </form>
 </div>
 
 <script type="text/javascript">
-  
+
   var form = document.getElementById("input-group")
   var btn = document.getElementById("btn-change")
   var input = document.getElementById("input-change")
   var alert = document.getElementById("alert-change")
-  form.addEventListener('submit', function(event) {
+  form.addEventListener('submit', function (event) {
     event.preventDefault()
     btn.disabled = true
     alert.hidden = true
     btn.innerHTML = "Checking..."
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onload = function(e) {
+    xmlhttp.onload = function (e) {
       if (xmlhttp.readyState === 4) {
         if (xmlhttp.status === 200) {
           var json = JSON.parse(xmlhttp.responseText)
           alert.className = "alert alert-danger"
-          
-          alert.innerHTML = 'The user has flagged the system <strong>' + json.vl + '</strong> time(s), with a record of <strong>' + json.record + '</strong> kills per game.' 
-          
-          
+
+          alert.innerHTML = 'The user has flagged the system <strong>' + json.vl + '</strong> time(s), with a record of <strong>' + json.record + '</strong> kills per game.'
+
+
         } else {
           alert.className = "alert alert-success"
           alert.innerHTML = 'The user\'s history is clean.'
@@ -57,45 +57,45 @@ description: Statistics about the main suspected killfarmers.
       }
     }
     var mojang = new XMLHttpRequest();
-    mojang.onload = function(e) {
+    mojang.onload = function (e) {
       if (mojang.readyState === 4) {
         if (mojang.status === 200) {
           var json = JSON.parse(mojang.responseText)
-          xmlhttp.open("GET", "https://api.roccodev.pw/bedwars/farmers/profile/" + json.id, true);
+          xmlhttp.open("GET", "https://api.rocco.dev/bedwars/farmers/profile/" + json.id, true);
           xmlhttp.send(null)
         }
       }
     }
     mojang.open("GET", "https://api.minetools.eu/uuid/" + input.value, true)
     mojang.send(null)
-    
-    
+
+
   })
-  
-  
+
+
   function sendAlt(username, owner) {
     var mojang = new XMLHttpRequest();
-    mojang.onload = function(e) {
+    mojang.onload = function (e) {
       if (mojang.readyState === 4) {
         if (mojang.status === 200) {
           var json = JSON.parse(mojang.responseText)
           var put = new XMLHttpRequest();
           put.open("PUT", "https://us-central1-bedwarstoolkit-alts.cloudfunctions.net/api/put", true);
           put.setRequestHeader("Content-Type", "application/json");
-          put.send(JSON.stringify({id: json.id, owner: owner}));
+          put.send(JSON.stringify({ id: json.id, owner: owner }));
         }
       }
     }
     mojang.open("GET", "https://api.minetools.eu/uuid/" + username, true)
     mojang.send(null)
-    
+
   }
-  
+
   function showModal(username) {
     $('#exampleModal').modal('show')
     var modalForm = document.getElementById("modal-form")
     $('#modal-form').off()
-    var list = function(event) {
+    var list = function (event) {
       event.preventDefault()
       var owner = document.getElementById("message-text").value
       console.log(owner);
@@ -105,5 +105,5 @@ description: Statistics about the main suspected killfarmers.
     }
     modalForm.addEventListener('submit', list)
   }
-  
+
 </script>

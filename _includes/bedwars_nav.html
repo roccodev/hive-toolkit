@@ -3,26 +3,27 @@
         <img src="/icon-transparent.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Bedwars Toolkit
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    
-    
+
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            
+
             {% for item in site.data.bedwars_nav %}
             <li class="nav-item {% if page.url == item.link or page.url == item.link2 %}active{% endif %}">
-                <a class="nav-link" href="{{item.link}}" >
+                <a class="nav-link" href="{{item.link}}">
                     {{ item.name }}
                 </a>
             </li>
-            
+
             {% endfor %}
-            
-        
-        </div>
-        <span class="navbar-text">
-            Made with ❤ by <a href="https://roccodev.pw">RoccoDev</a>
-        </span>
-    </nav>
+
+
+    </div>
+    <span class="navbar-text">
+        Made with ❤ by <a href="https://rocco.dev">RoccoDev</a>
+    </span>
+</nav>

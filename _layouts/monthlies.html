@@ -20,9 +20,12 @@
   <meta name="og:title" content="{{ page.gamemode }} Monthlies">
   <meta name="og:description"
     content="A leaderboard that tracks stats earned during the month by players in the Top 500.">
-  <meta name="og:image" content="https://hive.roccodev.pw/apple-touch-icon.png">
+  <meta name="og:image" content="https://hive.rocco.dev/apple-touch-icon.png">
   <meta name="og:site_name" content="Hive Monthlies | RoccoDev">
   <meta name="theme-color" content="#63ef2f">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:creator" content="RealRoccoDev">
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-77472043-2"></script>
@@ -218,11 +221,11 @@
     if (mode == 1) {
       obj = {}
       obj[playerParam] = latestSnapshot[playerParam];
-      document.getElementById("page-header-h1").innerHTML = '{{page.gamemode}} Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/monthlies/{{page.gamemode | downcase}}">Clear Query</a>'
+      document.getElementById("page-header-h1").innerHTML = '{{page.gamemode}} Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.rocco.dev/monthlies/{{page.gamemode | downcase}}">Clear Query</a>'
 
     }
     else if (mode == 2) {
-      document.getElementById("page-header-h1").innerHTML = '{{page.gamemode}} Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/monthlies/{{page.gamemode | downcase}}">Clear Query</a>'
+      document.getElementById("page-header-h1").innerHTML = '{{page.gamemode}} Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.rocco.dev/monthlies/{{page.gamemode | downcase}}">Clear Query</a>'
       obj = latestSnapshot;
     }
     else {

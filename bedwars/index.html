@@ -14,7 +14,7 @@ firebase-mid: 482159749766
 
 <div class="page-header">
   <h1 id="page-header-h1">BedWars Monthly Leaderboard</h1>
-  
+
 </div>
 {% include bedwars_ad.html %}
 
@@ -30,8 +30,8 @@ firebase-mid: 482159749766
       <th>Games Played</th>
       <th>Beds Destroyed</th>
       <th>Teams Eliminated</th>
-      
-    </tr>
+
+  </tr>
   </thead>
   <tbody></tbody>
   <tfoot>
@@ -48,7 +48,8 @@ firebase-mid: 482159749766
     </tr>
   </tfoot>
 </table>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -63,12 +64,12 @@ firebase-mid: 482159749766
             <label for="message-text" class="col-form-label">Players, each one on a different line</label>
             <textarea class="form-control" id="message-text"></textarea>
           </div>
-          
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Add...</button>
-        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add...</button>
+      </div>
       </form>
     </div>
   </div>
@@ -83,26 +84,26 @@ firebase-mid: 482159749766
       <input class="form-check-input" type="radio" name="radios" id="global-radio" value="global">
       <label class="form-check-label" for="global-radio">Lifetime Graph</label>
     </div>
-    
+
   </form>
   <canvas id="chart" width="500" height="500"></canvas>
 </div>
 </div>
 <script>
-  
+
   var latestSnapshot;
-  
-  
+
+
   function submitModalForm() {
     var players = document.forms["modalForm"]["message-text"].value
     var split = players.split("\n")
     split = split.concat(playerParam)
     var url;
-    for(var i in split) {
+    for (var i in split) {
       var uuid = split[i].replace("-", "")
-      if(uuid.length != 32) {
-        for(var i in latestSnapshot) {
-          if(latestSnapshot[i]["____name"].toLowerCase() === uuid.toLowerCase()) {
+      if (uuid.length != 32) {
+        for (var i in latestSnapshot) {
+          if (latestSnapshot[i]["____name"].toLowerCase() === uuid.toLowerCase()) {
             uuid = i;
             break;
           }
@@ -112,15 +113,15 @@ firebase-mid: 482159749766
     }
     url = url.substring(0, url.length - 1).replace("undefined", "")
     console.log(url)
-    
+
     window.location.replace("?player=" + url)
   }
-  
-  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     document.getElementsByClassName('container')[0].className = "container-fluid"
   }
-  
-  
+
+
   var arr = document.URL.match(/player=(.+)/)
   var playerParam;
   var mode;
@@ -128,12 +129,12 @@ firebase-mid: 482159749766
   var seasonData;
   var chartMode = 0;
   var chart;
-  if(arr != null) {
-    
+  if (arr != null) {
+
     var str = arr[1].split("&")
-    
-    if(str.length == 1) {
-      
+
+    if (str.length == 1) {
+
       playerParam = str[0];
       mode = 1;
     }
@@ -141,90 +142,90 @@ firebase-mid: 482159749766
       playerParam = str
       mode = 2;
     }
-    
+
   }
   else {
     mode = 0
   }
-  
-  
-  
+
+
+
   var table = document.getElementById('table')
   var ref = firebase.database().ref();
-  
-  ref.on("value", function(snapshot){
+
+  ref.on("value", function (snapshot) {
     table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th><th>Deaths</th><th>Victories</th><th>Games Played</th> <th>Beds Destroyed</th> <th>Teams Eliminated</th></tr></thead>"
     var tb = document.createElement('TBODY')
     var obj;
     latestSnapshot = snapshot.val()
-    if(mode == 1) {
+    if (mode == 1) {
       obj = {}
       obj[playerParam] = latestSnapshot[playerParam];
-      document.getElementById("page-header-h1").innerHTML = 'BedWars Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/bedwars">Clear Query</a>'
-      
+      document.getElementById("page-header-h1").innerHTML = 'BedWars Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.rocco.dev/bedwars">Clear Query</a>'
+
     }
-    else if(mode == 2) {
-      document.getElementById("page-header-h1").innerHTML = 'BedWars Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.roccodev.pw/bedwars">Clear Query</a>'
+    else if (mode == 2) {
+      document.getElementById("page-header-h1").innerHTML = 'BedWars Monthly Leaderboard <a class="btn btn-outline-success" href="http://hive.rocco.dev/bedwars">Clear Query</a>'
       obj = latestSnapshot;
     }
     else {
       obj = latestSnapshot;
     }
-    
-    
-    for (var i in obj){
-      
-      if(mode == 2 && !(playerParam.includes(i))) continue;
+
+
+    for (var i in obj) {
+
+      if (mode == 2 && !(playerParam.includes(i))) continue;
       var obj1 = obj[i];
-      
-      
+
+
       var tr = document.createElement('TR')
-      tr.title="K/D: " + (obj1["_kills"] / obj1["_kjdeaths"]).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " - W/L: " + (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-      
-      
-      
-      for (var key in obj1){
+      tr.title = "K/D: " + (obj1["_kills"] / obj1["_kjdeaths"]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " - W/L: " + (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+
+
+      for (var key in obj1) {
         var td = document.createElement('TD')
-        if(key === "____name"){
+        if (key === "____name") {
           td.innerHTML = '<a href="?player=' + i + '">' + obj1[key] + '</a>';
         } else {
           td.innerHTML = obj1[key]
-          
+
         }
-        
+
         tr.appendChild(td)
-        
+
       }
       tb.appendChild(tr)
-      
+
     }
     table.appendChild(tb)
     table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th> <th>Deaths</th> <th>Victories</th> <th>Games Played</th> <th>Beds Destroyed</th><th>Teams Eliminated</th>  </tr> </tfoot>"
-    
-    $('#table').dataTable( {
-      order: [[ 0, "asc" ]],
+
+    $('#table').dataTable({
+      order: [[0, "asc"]],
       responsive: true,
       destroy: true
-    } );
-    if(mode == 1 || mode == 2) {
-      
+    });
+    if (mode == 1 || mode == 2) {
+
       var parentDiv = document.getElementById("table_wrapper")
       var childDiv = document.createElement("DIV")
       childDiv.style.cssFloat = "left"
       childDiv.style.position = "relative"
       childDiv.style.left = "25%"
-      childDiv.style.top= "1%"
+      childDiv.style.top = "1%"
       childDiv.style.boxSizing = "border-box"
       childDiv.innerHTML = '<a class="btn btn-outline-primary" style="display: initial" data-toggle="modal" data-target="#exampleModal" href="#">Add Players</a>'
       parentDiv.insertBefore(childDiv, parentDiv.childNodes[2])
     }
-    
-    
+
+
   });
-  
-  if(mode == 1) {
+
+  if (mode == 1) {
     var graphXhr = new XMLHttpRequest()
-    graphXhr.onload = function(e) {
+    graphXhr.onload = function (e) {
       if (graphXhr.readyState === 4) {
         if (graphXhr.status === 200) {
           chartData = JSON.parse(graphXhr.responseText)
@@ -235,9 +236,9 @@ firebase-mid: 482159749766
     }
     graphXhr.open("GET", "https://roccodev-misc.firebaseio.com/g/" + playerParam + ".json", true)
     graphXhr.send(null)
-    
+
     var seasonXhr = new XMLHttpRequest()
-    seasonXhr.onload = function(e) {
+    seasonXhr.onload = function (e) {
       if (seasonXhr.readyState === 4) {
         if (seasonXhr.status === 200) {
           seasonData = JSON.parse(seasonXhr.responseText)
@@ -247,24 +248,24 @@ firebase-mid: 482159749766
     seasonXhr.open("GET", "https://bedwarstoolkit-season-data.firebaseio.com/" + playerParam + ".json", true)
     seasonXhr.send(null)
   }
-  
+
   var radios = document.radio.radios
-  for(var i = 0; i < radios.length; i++) {
-    radios[i].addEventListener('change', function(e) {
-      if(e.target.checked) {
-        switch(e.target.value) {
+  for (var i = 0; i < radios.length; i++) {
+    radios[i].addEventListener('change', function (e) {
+      if (e.target.checked) {
+        switch (e.target.value) {
           case "global":
-          chartMode = 1
-          break;
+            chartMode = 1
+            break;
           default:
-          chartMode = 0
-          break;
+            chartMode = 0
+            break;
         }
         addAllToChart(chartData)
       }
     });
   }
-  
+
   const labels = {
     p: "Played",
     s: "Points",
@@ -275,7 +276,7 @@ firebase-mid: 482159749766
     b: "Beds",
     t: "Teams"
   }
-  
+
   const seasonLabels = {
     d: "startDea",
     k: "startKil",
@@ -285,34 +286,34 @@ firebase-mid: 482159749766
     v: "startVic",
     p: "startPl"
   }
-  
-  
-  
+
+
+
   function addAllToChart(data) {
-    chart.data.datasets.forEach(function(dataset){
+    chart.data.datasets.forEach(function (dataset) {
       dataset.data = []
     })
     var keys = Object.keys(data)
-    keys.sort(function(a, b) {
+    keys.sort(function (a, b) {
       return parseInt(a.split("S")[2]) - parseInt(b.split("S")[2])
     })
-    for(key in keys) {
+    for (key in keys) {
       var date = data[keys[key]]
-      for(key1 in date) {
-        if(chartMode == 0) {
-          
+      for (key1 in date) {
+        if (chartMode == 0) {
+
           var value = date[key1]
-          if(value === "Infinity") value = Infinity
-          if(value === "NaN") value = NaN
+          if (value === "Infinity") value = Infinity
+          if (value === "NaN") value = NaN
           addToChart(labels[key1], key1, value)
         }
         else {
-          if(key1 === "r") {
+          if (key1 === "r") {
             var totalKills = seasonData[seasonLabels.k] + date.k
             var totalDeaths = seasonData[seasonLabels.d] + date.d
             addToChart(labels[key1], key1, totalKills / totalDeaths)
           }
-          else if(key1 === "z") {
+          else if (key1 === "z") {
             var totalVics = seasonData[seasonLabels.v] + date.v
             var totalPl = seasonData[seasonLabels.p] + date.p
             addToChart(labels[key1], key1, totalVics / (totalPl - totalVics))
@@ -325,45 +326,45 @@ firebase-mid: 482159749766
     }
     chart.update()
   }
-  
+
   function addToChart(label, key, data) {
     var value = data[key]
     chart.data.datasets.forEach((dataset) => {
-      if(dataset.label === label)
-      dataset.data.push(data);
+      if (dataset.label === label)
+        dataset.data.push(data);
     });
   }
-  
-  
+
+
   function genDataset(label, color) {
     return {
       label: label,
       borderColor: [
-      color,
+        color,
       ],
       backgroundColor: color,
       fill: false
-      
+
     }
   }
-  
+
   function parseDate(date) {
     return new Date(Date.parse(date.replace(/S/g, "/"))).toLocaleDateString()
   }
-  
+
   function parseChart() {
     var labels = []
     var data = []
-    
+
     var keys = Object.keys(chartData)
-    keys.sort(function(a, b) {
+    keys.sort(function (a, b) {
       return parseInt(a.split("S")[2]) > parseInt(b.split("S")[2]) ? 1 : -1
     })
     console.log(keys);
-    for(key in keys) {
+    for (key in keys) {
       labels.push(parseDate(keys[key]))
     }
-    
+
     var dom = document.getElementById("chart")
     var ctx = dom.getContext('2d');
     document.getElementById("hide").hidden = false
@@ -387,12 +388,12 @@ firebase-mid: 482159749766
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero:true
+              beginAtZero: true
             }
           }]
         }
       }
     });
-    
+
   }
 </script>
