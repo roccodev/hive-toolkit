@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Montserrat');
+
 .bs-callout {
   margin: 20px 0;
   padding: 15px 30px 15px 15px;
@@ -30,4 +32,12 @@
 
 td a {
   color: #212529;
+}
+
+body {
+  font-family: 'Lato', sans-serif
+}
+
+nav {
+  font-family: 'Montserrat Medium', sans-serif
 }
