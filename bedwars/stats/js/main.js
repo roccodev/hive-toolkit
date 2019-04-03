@@ -1,4 +1,4 @@
-import {stats, rankColors} from "./stats.js"
+import { stats, rankColors } from "./stats.js"
 
 var cache = {}
 var cachedPlayers = [];
@@ -9,7 +9,7 @@ var clonedDiv, cloned1, cloned2, cloned3, tableDiv, table1, table2, table3
 function main() {
 
   var arr = document.URL.match(/player=(.+)/)
-  if(arr == null) {
+  if (arr == null) {
     document.getElementsByClassName("container")[0].innerHTML = ""
     document.getElementById("noPlayer").hidden = false
     document.getElementById("add-btn").addEventListener("click", addMore)
@@ -22,7 +22,7 @@ function main() {
 
 }
 
-$('#selector button').click(function() {
+$('#selector button').click(function () {
 
   $(this).addClass('active').siblings().removeClass('active');
   selectedMode = $(this).context.id
@@ -31,7 +31,7 @@ $('#selector button').click(function() {
   var cont = document.getElementById("table-container")
   var children = cont
   var elements = cont.getElementsByClassName("other");
-  while(elements.length > 0){
+  while (elements.length > 0) {
     elements[0].parentNode.removeChild(elements[0]);
   }
 
@@ -42,12 +42,12 @@ $('#selector button').click(function() {
 
 function searchPlayer(event) {
   event.preventDefault()
-  if(event.explicitOriginalTarget.type !== "submit") return false
+  if (event.explicitOriginalTarget && event.explicitOriginalTarget.type !== "submit") return false
   console.log(event);
   var players = event.target.querySelectorAll("input")
   console.log(players);
   var str = ""
-  players.forEach(function(it) {
+  players.forEach(function (it) {
     str += it.value + "&"
   })
 
@@ -70,7 +70,7 @@ function addMore() {
 
 function displayDOM(playersRaw, mode) {
 
-  var players = typeof(playersRaw) === "string" ? [playersRaw] : playersRaw
+  var players = typeof (playersRaw) === "string" ? [playersRaw] : playersRaw
 
   var counter = 0;
   table1 = null
@@ -80,38 +80,38 @@ function displayDOM(playersRaw, mode) {
 
 
   var container = document.getElementById("table-container")
-  if(players.length != 1)  {
+  if (players.length != 1) {
     container.className = "row"
     var cached = document.getElementById("cached")
     container.parentNode.insertBefore(cached, container.parentNode.childNodes[2])
   }
-  for(var key in players) {
+  for (var key in players) {
     var player = players[key]
-    if(cachedPlayers.indexOf(player) == -1)
-    cachedPlayers.push(player)
+    if (cachedPlayers.indexOf(player) == -1)
+      cachedPlayers.push(player)
 
-    if(done.indexOf(player) != -1) {
+    if (done.indexOf(player) != -1) {
       counter++
       continue
     }
-    if(!cache[player] || !(cache[player][mode])) {
+    if (!cache[player] || !(cache[player][mode])) {
 
       loadStats(player, mode, players)
       return
     }
-    if(selectedMode !== mode) return
+    if (selectedMode !== mode) return
 
 
     var res = cache[player][mode]
 
-    if(res.code) {
+    if (res.code) {
       counter++
       continue
     }
 
 
 
-    if(counter == 0 && !clonedDiv || clonedDiv == null) {
+    if (counter == 0 && !clonedDiv || clonedDiv == null) {
 
       clonedDiv = document.getElementsByClassName("table-div")[0]
       cloned1 = clonedDiv.getElementsByClassName("table-stats")[0]
@@ -144,28 +144,28 @@ function displayDOM(playersRaw, mode) {
     table1.querySelector(".teams").innerHTML = res.teams_eliminated.toLocaleString()
     table1.querySelector(".streak").innerHTML = res.win_streak.toLocaleString()
 
-    table2.querySelector(".kdr").innerHTML = (res.kills / res.deaths).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+    table2.querySelector(".kdr").innerHTML = (res.kills / res.deaths).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
     var wlrStr = (res.victories / (res.games_played - res.victories))
-    .toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " (" + (res.victories / res.games_played * 100.0).toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits: 1}) + "%)"
+      .toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " (" + (res.victories / res.games_played * 100.0).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%)"
 
 
     table2.querySelector(".wlr").innerHTML = wlrStr
-    table2.querySelector(".ppg").innerHTML = (res.total_points / res.games_played).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-    table2.querySelector(".kpg").innerHTML = (res.kills / res.games_played).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-    table2.querySelector(".dpg").innerHTML = (res.deaths / res.games_played).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+    table2.querySelector(".ppg").innerHTML = (res.total_points / res.games_played).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    table2.querySelector(".kpg").innerHTML = (res.kills / res.games_played).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    table2.querySelector(".dpg").innerHTML = (res.deaths / res.games_played).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
     table3.querySelector(".firstgame").innerHTML = new Date(res.firstLogin * 1000).toLocaleString()
     table3.querySelector(".lastgame").innerHTML = new Date(res.lastlogin * 1000).toLocaleString()
 
-    if(document.URL.includes("&")) {
+    if (document.URL.includes("&")) {
       var hide = document.getElementsByClassName("rank")[0]
       var rankClone = hide.cloneNode(true)
       rankClone.hidden = false
       setTitle(cache[player].BED, rankClone)
       rankClone.className += " rank"
       hide.hidden = true
-      if(tableDiv.querySelector("p") == null) {
+      if (tableDiv.querySelector("p") == null) {
         var p = document.createElement("p")
         p.innerHTML = player
         p.className = "font-weight-bold other"
@@ -173,7 +173,7 @@ function displayDOM(playersRaw, mode) {
         tableDiv.insertBefore(p, tableDiv.childNodes[1])
       }
 
-      if(tableDiv.querySelector(".rank") == null) {
+      if (tableDiv.querySelector(".rank") == null) {
         tableDiv.insertBefore(rankClone, tableDiv.childNodes[2])
         tableDiv.insertBefore(document.createElement("br"), tableDiv.childNodes[3])
         tableDiv.insertBefore(document.createElement("br"), tableDiv.childNodes[4])
@@ -183,7 +183,7 @@ function displayDOM(playersRaw, mode) {
 
 
 
-    if(counter != 0) {
+    if (counter != 0) {
 
       tableDiv.appendChild(table1)
       tableDiv.appendChild(document.createElement("br"))
@@ -195,8 +195,8 @@ function displayDOM(playersRaw, mode) {
 
     }
     counter++
-    if(done.indexOf(player) == -1)
-    done.push(player)
+    if (done.indexOf(player) == -1)
+      done.push(player)
   }
 
 
@@ -205,37 +205,37 @@ function displayDOM(playersRaw, mode) {
 }
 
 function loadWithoutDisplay(player, mode) {
-  stats(player, mode).then(function(res){
+  stats(player, mode).then(function (res) {
     cache[player][mode] = res
   })
 }
 
 function loadStats(player, mode, inputRaw) {
 
-  stats(player, mode).then(function(res){
+  stats(player, mode).then(function (res) {
 
 
-    if(!cache[player]) cache[player] = {}
+    if (!cache[player]) cache[player] = {}
     cache[player][mode] = res
 
     displayDOM(inputRaw, mode)
     var disp = inputRaw.length == 1 ? inputRaw[0] + "'s Stats" : "Stats Comparison"
     document.getElementById("title").innerHTML = disp
 
-    if(inputRaw.length == 1)
-    setTitle(res, document.getElementsByClassName("rank")[0])
+    if (inputRaw.length == 1)
+      setTitle(res, document.getElementsByClassName("rank")[0])
   })
 }
 
 function setTitle(res, toSet) {
   var title;
-  if(!res.title.startsWith("✸")) {
+  if (!res.title.startsWith("✸")) {
     title = /^(.+)\s(.+)/g.exec(res.title)[1]
-    .replace(" ", "_").toLowerCase()
+      .replace(" ", "_").toLowerCase()
   } else {
     title = "zzzzzz";
   }
-  if(res.title.startsWith("Sleepy ") && res.total_points > 1500) {
+  if (res.title.startsWith("Sleepy ") && res.total_points > 1500) {
     title = "zzzzzz"
   }
 
