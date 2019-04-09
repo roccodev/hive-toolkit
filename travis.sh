@@ -9,7 +9,7 @@ cd roccodev.github.io # cd into the directory
 rm -rf .git
 
 rm CNAME
-echo "hive.rocco.dev" >> CNAME
+echo "hive.roccodev.it" >> CNAME
 
 git init # Create a blank repository
 git remote add origin https://${GIT_TOKEN}@github.com/RoccoDev/HiveToolkit-Mirror.git # Add the mirror as remote
