@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato|Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Lato|Montserrat:500');
 
 .bs-callout {
   margin: 20px 0;
@@ -39,5 +39,5 @@ body {
 }
 
 nav {
-  font-family: 'Montserrat Medium', sans-serif
+  font-family: 'Montserrat', sans-serif
 }
