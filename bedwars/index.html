@@ -124,7 +124,6 @@ firebase-mid: 482159749766
     document.getElementsByClassName('container')[0].className = "container-fluid"
   }
 
-
   var arr = document.URL.match(/player=(.+)/)
   var playerParam;
   var mode;
@@ -184,11 +183,8 @@ firebase-mid: 482159749766
 
       var tr = document.createElement('TR')
 
-      let kd = (obj1["_kills"] / obj1["_kjdeaths"]).toFixed(2)
-      let wl = (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toFixed(2)
-
-      if (isNaN(kd)) kd = 0
-      if (isNaN(wl)) wl = 0
+      let kd = (obj1["_kills"] / obj1["_kjdeaths"]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      let wl = (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
       obj1["zzzzzzzzzzzz_kd"] = kd
       obj1["zzzzzzzzzzzz_wl"] = wl
@@ -214,6 +210,21 @@ firebase-mid: 482159749766
 
     $('#table').dataTable({
       order: [[0, "asc"]],
+      columnDefs: [
+        {
+          type: "num-fmt", targets: 9, render: (data, a, b) => {
+            if (a === 'sort' && data === '∞') return '322222222224243'
+            return data
+          }
+        },
+        {
+          type: "num-fmt", targets: 10, render: (data, a, b) => {
+            if (a === 'sort' && data === '∞') return '322222222224243'
+            return data
+          }
+        }
+      ],
+
       responsive: true,
       destroy: true
     });
