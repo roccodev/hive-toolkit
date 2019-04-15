@@ -30,7 +30,8 @@ firebase-mid: 482159749766
       <th>Games Played</th>
       <th>Beds Destroyed</th>
       <th>Teams Eliminated</th>
-
+      <th>K/D</th>
+      <th>W/L</th>
   </tr>
   </thead>
   <tbody></tbody>
@@ -45,6 +46,8 @@ firebase-mid: 482159749766
       <th>Games Played</th>
       <th>Beds Destroyed</th>
       <th>Teams Eliminated</th>
+      <th>K/D</th>
+      <th>W/L</th>
     </tr>
   </tfoot>
 </table>
@@ -154,7 +157,7 @@ firebase-mid: 482159749766
   var ref = firebase.database().ref();
 
   ref.on("value", function (snapshot) {
-    table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th><th>Deaths</th><th>Victories</th><th>Games Played</th> <th>Beds Destroyed</th> <th>Teams Eliminated</th></tr></thead>"
+    table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th><th>Deaths</th><th>Victories</th><th>Games Played</th> <th>Beds Destroyed</th> <th>Teams Eliminated</th><th>K/D</th><th>W/L</th></tr></thead>"
     var tb = document.createElement('TBODY')
     var obj;
     latestSnapshot = snapshot.val()
@@ -180,8 +183,15 @@ firebase-mid: 482159749766
 
 
       var tr = document.createElement('TR')
-      tr.title = "K/D: " + (obj1["_kills"] / obj1["_kjdeaths"]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " - W/L: " + (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
+      let kd = (obj1["_kills"] / obj1["_kjdeaths"]).toFixed(2)
+      let wl = (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toFixed(2)
+
+      if (isNaN(kd)) kd = 0
+      if (isNaN(wl)) wl = 0
+
+      obj1["zzzzzzzzzzzz_kd"] = kd
+      obj1["zzzzzzzzzzzz_wl"] = wl
 
 
       for (var key in obj1) {
@@ -200,7 +210,7 @@ firebase-mid: 482159749766
 
     }
     table.appendChild(tb)
-    table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th> <th>Deaths</th> <th>Victories</th> <th>Games Played</th> <th>Beds Destroyed</th><th>Teams Eliminated</th>  </tr> </tfoot>"
+    table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th> <th>Deaths</th> <th>Victories</th> <th>Games Played</th> <th>Beds Destroyed</th><th>Teams Eliminated</th><th>K/D</th><th>W/L</th>  </tr> </tfoot>"
 
     $('#table').dataTable({
       order: [[0, "asc"]],
