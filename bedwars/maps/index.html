@@ -4,10 +4,10 @@ title: Maps
 description: The list of Bedwars maps, directly fetched from the API.
 ---
 <div align="center">
-  
+
   <h1 id="title">Maps | Bedwars Toolkit</h1>
   {% include bedwars_ad.html %}
-  
+
   <table class="table table-striped table-sm" style="table-layout:fixed">
     <thead>
       <tr>
@@ -20,32 +20,33 @@ description: The list of Bedwars maps, directly fetched from the API.
     </tbody>
   </table>
   <p><i id="cached"></i></p>
-  
+
 </div>
 
 <script type="module">
-  import {maps} from '../stats/js/stats.js'
-  
+  import { maps } from '../stats/js/stats.js'
+
   function createTD(inside) {
     var td = document.createElement("TD")
     td.innerHTML = inside
     return td
   }
-  
-  maps().then(function(mapList) {
-    
-    
+
+  maps().then(function (mapList) {
+
     var tbody = document.getElementById("table-body")
     var knownNames = []
-    
-    for(var key in mapList) {
-      
+    console.log(mapList)
+    let keys = Object.keys(mapList).reverse()
+
+    for (var index in keys) {
+      var key = keys[index]
       var map = mapList[key]
-      
-      if(knownNames.indexOf(map.mapname) > -1) continue;
-      
+
+      if (knownNames.indexOf(map.mapname) > -1) continue;
+
       knownNames = [...knownNames, map.mapname]
-      
+
       var tr = document.createElement("TR")
       tr.appendChild(createTD(map.mapname))
       tr.appendChild(createTD(map.mapauthor))
@@ -53,7 +54,7 @@ description: The list of Bedwars maps, directly fetched from the API.
       tbody.appendChild(tr)
     }
   })
-  
-  
-  
+
+
+
 </script>

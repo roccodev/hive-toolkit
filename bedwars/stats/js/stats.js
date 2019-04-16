@@ -80,4 +80,4 @@ function stats(player, mode) {
   });
 }
 
-export {stats, rankColors, ranks, maps}
+export { stats, rankColors, ranks, maps }
