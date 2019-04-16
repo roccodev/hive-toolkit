@@ -3,10 +3,11 @@ layout: bedwars
 title: Ranks
 description: The list of Bedwars ranks, directly fetched from the API.
 ---
+<link rel="stylesheet" href="../stats/css/stats.css">
 <div align="center">
-  
+
   <h1 id="title">Ranks | Bedwars Toolkit</h1>
-  
+
   {% include bedwars_ad.html %}
   <table class="table table-striped table-sm" style="table-layout:fixed">
     <thead>
@@ -19,20 +20,20 @@ description: The list of Bedwars ranks, directly fetched from the API.
     </tbody>
   </table>
   <p><i id="cached"></i></p>
-  
+
 </div>
 
 <script type="module">
-  import {ranks, rankColors} from '../stats/js/stats.js'
-  
+  import { ranks, rankColors } from '../stats/js/stats.js'
+
   function createTD(inside, classNames) {
     var td = document.createElement("TD")
     td.innerHTML = inside
     td.className = classNames
     return td
   }
-  
-  ranks().then(function(rankList) {
+
+  ranks().then(function (rankList) {
     rankList.push({
       required_points: "#1 Rank",
       name: "ZZZZZZ",
@@ -41,7 +42,7 @@ description: The list of Bedwars ranks, directly fetched from the API.
       plain_name: "✸ Zzzzzz"
     })
     var tbody = document.getElementById("table-body")
-    for(var i in rankList) {
+    for (var i in rankList) {
       var rank = rankList[i]
       var tr = document.createElement("TR")
       tr.appendChild(createTD(rank.plain_name, rankColors[rank.name_group.toLowerCase()]))
@@ -49,7 +50,7 @@ description: The list of Bedwars ranks, directly fetched from the API.
       tbody.appendChild(tr)
     }
   })
-  
-  
-  
+
+
+
 </script>
