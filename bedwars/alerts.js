@@ -2,7 +2,6 @@ let domAlert = document.getElementById("bed-alert")
 const url = "https://rocco.dev/archive/bedwars/alerts.json"
 const options = {
     method: 'GET',
-    mode: 'cors',
     cache: 'default',
     headers: {
         'Content-Type': 'application/json'
