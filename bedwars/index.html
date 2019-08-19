@@ -14,8 +14,8 @@ firebase-mid: 482159749766
 
 <div class="page-header">
   <h1 id="page-header-h1">BedWars Monthly Leaderboard</h1>
-
 </div>
+<div class="alert alert-warning" role="alert" id="bed-alert" hidden></div>
 {% include bedwars_ad.html %}
 
 <table id="table" class="display dataTable table table-striped">
@@ -92,6 +92,7 @@ firebase-mid: 482159749766
   <canvas id="chart" width="500" height="500"></canvas>
 </div>
 </div>
+<script type="text/javascript" src="alerts.js"></script>
 <script>
 
   var latestSnapshot;
