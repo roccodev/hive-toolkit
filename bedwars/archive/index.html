@@ -183,6 +183,21 @@
 
         $('#table').dataTable({
           order: [[0, "asc"]],
+          columnDefs: [
+        {
+          type: "num-fmt", targets: 9, render: (data, a, b) => {
+            if (a === 'sort' && data === '∞') return '322222222224243'
+            return data
+          }
+        },
+        {
+          type: "num-fmt", targets: 10, render: (data, a, b) => {
+            if (a === 'sort' && data === '∞') return '322222222224243'
+            return data
+          }
+        }
+      ],
+
           responsive: true,
           destroy: true
         });
