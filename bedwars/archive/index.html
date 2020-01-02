@@ -93,7 +93,8 @@
           <th>Games Played</th>
           <th>Beds Destroyed</th>
           <th>Teams Eliminated</th>
-
+          <th>K/D</th>
+          <th>W/L</th>
       </tr>
       </thead>
       <tbody></tbody>
@@ -108,6 +109,8 @@
           <th>Games Played</th>
           <th>Beds Destroyed</th>
           <th>Teams Eliminated</th>
+          <th>K/D</th>
+          <th>W/L</th>
         </tr>
       </tfoot>
     </table>
@@ -142,7 +145,7 @@
       http.addEventListener("load", function () {
         var obj = JSON.parse(this.responseText)
         cachedObj = obj
-        table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th><th>Deaths</th><th>Victories</th><th>Games Played</th> <th>Beds Destroyed</th> <th>Teams Eliminated</th></tr></thead>"
+        table.innerHTML = "<thead> <tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th><th>Deaths</th><th>Victories</th><th>Games Played</th> <th>Beds Destroyed</th> <th>Teams Eliminated</th><th>K/D</th><th>W/L</th></tr></thead>"
         var tb = document.createElement('TBODY')
 
 
@@ -154,8 +157,11 @@
 
 
           var tr = document.createElement('TR')
-          tr.title = "K/D: " + (obj1["_kills"] / obj1["_kjdeaths"]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " - W/L: " + (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          let kd = (obj1["_kills"] / obj1["_kjdeaths"]).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          let wl = (obj1["_victories"] / (obj1["played"] - obj1["_victories"])).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
+          obj1["zzzzzzzzzzzz_kd"] = kd
+          obj1["zzzzzzzzzzzz_wl"] = wl
           for (var key in obj1) {
             var td = document.createElement('TD')
             if (key === "___online") continue;
@@ -171,7 +177,7 @@
 
         }
         table.appendChild(tb)
-        table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th> <th>Deaths</th> <th>Victories</th> <th>Games Played</th> <th>Beds Destroyed</th><th>Teams Eliminated</th>  </tr> </tfoot>"
+        table.innerHTML += "<tfoot><tr> <th>Place</th><th>Name</th><th>Points</th><th>Kills</th> <th>Deaths</th> <th>Victories</th> <th>Games Played</th> <th>Beds Destroyed</th><th>Teams Eliminated</th><th>K/D</th><th>W/L</th>  </tr> </tfoot>"
 
         document.getElementById("innerCallout").innerHTML = "Loaded season " + seasonParam + "."
 
