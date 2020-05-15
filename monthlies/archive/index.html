@@ -153,8 +153,9 @@
                         reader.addEventListener("loadend", function () {
                             var content = JSON.parse(reader.result)
                             cachedObj = content
-                            var order = ["place", "username"].concat(data.c)
-                            var names = ["Place", "Username"].concat(data.cn)
+                            const isBed = "BED" === game
+                            var order = (isBed ? [] : ["place", "username"]).concat(data.c)
+                            var names = (isBed ? [] : ["Place", "Username"]).concat(data.cn)
                             const htr = document.createElement('TR')
                             const ftr = document.createElement('TR')
 
